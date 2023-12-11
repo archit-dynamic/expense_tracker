@@ -7,7 +7,8 @@ class Routes {
         val signIn: String = "signIn"
         val signUp: String = "signUP"
         val forgotPassword: String = "forgotPassword"
-        val home: String = "home"
+        val dashboard: String = "dashboard"
+        val expenseEntry: String = "expenseEntry"
 
     }
 

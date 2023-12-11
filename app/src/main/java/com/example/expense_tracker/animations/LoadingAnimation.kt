@@ -14,8 +14,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.expense_tracker.composables.custom_composables.HorizontalSpace
-import com.example.expense_tracker.ui.theme.ButtonColorGradiant1
+import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.ui.theme.Expense_trackerTheme
 import kotlinx.coroutines.delay
 
@@ -23,7 +22,7 @@ import kotlinx.coroutines.delay
 fun LoadingAnimation(
     modifier: Modifier = Modifier,
     circleSize: Dp = 25.dp,
-    circleColor: Color = ButtonColorGradiant1,
+    circleColor: Color = AppColors.ButtonColorGradiant1,
     spaceBetween: Dp = 10.dp,
     travelDistance: Dp = 160.dp,
 ) {

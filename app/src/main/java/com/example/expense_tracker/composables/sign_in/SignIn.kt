@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -25,8 +24,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.expense_tracker.R
 import com.example.expense_tracker.animations.LoadingAnimation
+import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.composables.custom_composables.CustomButton
-import com.example.expense_tracker.composables.custom_composables.CustomInputTextField
+import com.example.expense_tracker.composables.custom_composables.CustomUnderlinedTextField
 import com.example.expense_tracker.composables.custom_composables.HorizontalSpace
 import com.example.expense_tracker.composables.custom_composables.VerticalSpace
 import com.example.expense_tracker.enum.SignInState
@@ -35,6 +35,7 @@ import com.example.expense_tracker.strings.Routes
 import com.example.expense_tracker.ui.theme.*
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
+import java.sql.DriverManager.println
 
 @Composable
 fun SignIn(navController: NavHostController) {
@@ -57,7 +58,7 @@ fun SignIn(navController: NavHostController) {
                 signInState = SignInState.AUTHENTICATED
                 signInErrorMessage = ""
                 showAuthenticationError = false
-                navController.navigate(Routes.home) {
+                navController.navigate(Routes.dashboard) {
                     popUpTo(navController.graph.id) {
                         inclusive = true
                     }
@@ -105,7 +106,7 @@ fun SignIn(navController: NavHostController) {
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.White)
+                .background(color = AppColors.White)
                 .padding(horizontal = 24.dp),
         ) {
 
@@ -113,17 +114,17 @@ fun SignIn(navController: NavHostController) {
                 modifier = Modifier
                     .defaultMinSize(110.dp)
             ) {
-                Text("Sign In", color = Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
+                Text("Sign In", color = AppColors.Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
                 if (showAuthenticationError) VerticalSpace(height = 8.dp)
                 if (showAuthenticationError) Row(
                     modifier = Modifier
                         .border(
                             width = 1.dp,
-                            color = ErrorColor,
+                            color = AppColors.ErrorColor,
                             shape = RoundedCornerShape(10.dp)
                         )
                         .defaultMinSize(60.dp)
-                        .background(color = ErrorColor.copy(alpha = 0.1f))
+                        .background(color = AppColors.ErrorColor.copy(alpha = 0.1f))
                         .padding(all = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
@@ -135,14 +136,14 @@ fun SignIn(navController: NavHostController) {
                     HorizontalSpace(width = 10.dp)
                     Text(
                         signInErrorMessage,
-                        color = ErrorColor,
+                        color = AppColors.ErrorColor,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500,
                     )
                 }
             }
             VerticalSpace(height = 8.dp)
-            CustomInputTextField(
+            CustomUnderlinedTextField(
                 value = email,
                 hintText = "Email",
                 onValueChange = { email = it },
@@ -155,7 +156,7 @@ fun SignIn(navController: NavHostController) {
                 modifier = Modifier,
             )
             VerticalSpace(height = 24.dp)
-            CustomInputTextField(
+            CustomUnderlinedTextField(
                 value = password,
                 hintText = "Password",
                 onValueChange = { password = it },
@@ -182,7 +183,7 @@ fun SignIn(navController: NavHostController) {
             ) {
                 Text(
                     "Forgot Password?",
-                    color = ButtonColorGradiant1,
+                    color = AppColors.ButtonColorGradiant1,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
                     modifier = Modifier.clickable {
@@ -212,13 +213,13 @@ fun SignIn(navController: NavHostController) {
             ) {
                 Text(
                     "Don't have an account? ",
-                    color = Gray,
+                    color = AppColors.Gray,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
                 )
                 Text(
                     "Sign Up",
-                    color = ButtonColorGradiant1,
+                    color = AppColors.ButtonColorGradiant1,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {

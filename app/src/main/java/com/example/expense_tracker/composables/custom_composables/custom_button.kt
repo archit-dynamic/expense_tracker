@@ -16,9 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expense_tracker.R
-import com.example.expense_tracker.ui.theme.ButtonColorGradiant1
+import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.ui.theme.Expense_trackerTheme
-import com.example.expense_tracker.ui.theme.White
 
 @Composable
 fun CustomButton(
@@ -30,13 +29,13 @@ fun CustomButton(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(1000.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = ButtonColorGradiant1,
+            backgroundColor = AppColors.ButtonColorGradiant1,
         ),
         onClick = onClick
     ) {
         Text(
             text = text,
-            color = White,
+            color = AppColors.White,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)

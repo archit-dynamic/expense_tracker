@@ -15,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -25,8 +24,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.expense_tracker.R
 import com.example.expense_tracker.animations.LoadingAnimation
+import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.composables.custom_composables.CustomButton
-import com.example.expense_tracker.composables.custom_composables.CustomInputTextField
+import com.example.expense_tracker.composables.custom_composables.CustomUnderlinedTextField
 import com.example.expense_tracker.composables.custom_composables.HorizontalSpace
 import com.example.expense_tracker.composables.custom_composables.VerticalSpace
 import com.example.expense_tracker.enum.SignInState
@@ -35,6 +35,7 @@ import com.example.expense_tracker.strings.Routes
 import com.example.expense_tracker.ui.theme.*
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
+import java.sql.DriverManager.println
 
 @Composable
 fun SignUp(navController: NavHostController) {
@@ -59,7 +60,7 @@ fun SignUp(navController: NavHostController) {
                 signUpState = SignInState.AUTHENTICATED
                 signUpErrorMessage = ""
                 showAuthenticationError = false
-                navController.navigate(Routes.home) {
+                navController.navigate(Routes.dashboard) {
                     popUpTo(navController.graph.id) {
                         inclusive = true
                     }
@@ -114,24 +115,24 @@ fun SignUp(navController: NavHostController) {
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.White)
+                .background(color = AppColors.White)
                 .padding(horizontal = 24.dp),
         ) {
             Column(
                 modifier = Modifier
                     .defaultMinSize(110.dp)
             ) {
-                Text("Sign Up", color = Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
+                Text("Sign Up", color = AppColors.Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
                 if (showAuthenticationError) VerticalSpace(height = 8.dp)
                 if (showAuthenticationError) Row(
                     modifier = Modifier
                         .border(
                             width = 1.dp,
-                            color = ErrorColor,
+                            color = AppColors.ErrorColor,
                             shape = RoundedCornerShape(10.dp)
                         )
                         .defaultMinSize(60.dp)
-                        .background(color = ErrorColor.copy(alpha = 0.1f))
+                        .background(color = AppColors.ErrorColor.copy(alpha = 0.1f))
                         .padding(all = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
@@ -143,14 +144,14 @@ fun SignUp(navController: NavHostController) {
                     HorizontalSpace(width = 10.dp)
                     Text(
                         signUpErrorMessage,
-                        color = ErrorColor,
+                        color = AppColors.ErrorColor,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500,
                     )
                 }
             }
             VerticalSpace(height = 8.dp)
-            CustomInputTextField(
+            CustomUnderlinedTextField(
                 value = username,
                 hintText = "Username",
                 onValueChange = { username = it },
@@ -163,7 +164,7 @@ fun SignUp(navController: NavHostController) {
                 modifier = Modifier,
             )
             VerticalSpace(height = 24.dp)
-            CustomInputTextField(
+            CustomUnderlinedTextField(
                 value = email,
                 hintText = "Email",
                 onValueChange = { email = it },
@@ -176,7 +177,7 @@ fun SignUp(navController: NavHostController) {
                 modifier = Modifier,
             )
             VerticalSpace(height = 24.dp)
-            CustomInputTextField(
+            CustomUnderlinedTextField(
                 value = password,
                 hintText = "Password",
                 onValueChange = { password = it },
@@ -214,13 +215,13 @@ fun SignUp(navController: NavHostController) {
             ) {
                 Text(
                     "Have an account? ",
-                    color = Gray,
+                    color = AppColors.Gray,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
                 )
                 Text(
                     "Sign In",
-                    color = ButtonColorGradiant1,
+                    color = AppColors.ButtonColorGradiant1,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
