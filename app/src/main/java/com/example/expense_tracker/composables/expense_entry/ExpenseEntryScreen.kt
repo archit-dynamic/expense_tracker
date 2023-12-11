@@ -15,10 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expense_tracker.R
 import com.example.expense_tracker.colors.AppColors
-import com.example.expense_tracker.composables.custom_composables.CustomBorderedTextFieldWithLabel
-import com.example.expense_tracker.composables.custom_composables.CustomButton
-import com.example.expense_tracker.composables.custom_composables.CustomDropdown
-import com.example.expense_tracker.composables.custom_composables.VerticalSpace
+import com.example.expense_tracker.composables.custom_composables.*
 import com.google.android.gms.common.util.CollectionUtils
 
 @Composable
@@ -79,12 +76,8 @@ fun ExpenseEntryScreen() {
             list = listOf("first", "second", "third", "fourth")
         )
         VerticalSpace(height = 16.dp)
-        CustomBorderedTextFieldWithLabel(
-            modifier = Modifier,
-            onValueChange = {},
-            value = "",
-            label = "Date",
-            hintText = "Date",
+        CustomDatePicker(
+            label = "Date"
         )
         VerticalSpace(height = 24.dp)
         CustomButton(text = "Add Expense", onClick = {})
