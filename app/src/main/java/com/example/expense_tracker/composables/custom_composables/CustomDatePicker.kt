@@ -5,7 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,40 +13,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.expense_tracker.R
 import com.example.expense_tracker.colors.AppColors
+import com.example.expense_tracker.strings.AppImages
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import java.time.LocalDate
+import java.time.*
 import java.time.format.DateTimeFormatter
-import java.util.*
-import androidx.compose.material3.DateRangePickerState
-import androidx.compose.material3.DisplayMode
-import androidx.compose.material3.ExperimentalMaterial3Api
-import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomDatePicker(
     label: String? = null,
+    onSelect: (LocalDate) -> Unit,
 ) {
 
     var pickedDate by remember {
         mutableStateOf(LocalDate.now())
     }
-
-    var datetime = LocalDateTime.now()
-//    var datett = remember {
-//        DateRangePickerState(
-//            initialSelectedStartDateMillis = datetime.toEpochSecond(),
-//            initialDisplayedMonthMillis = null,
-//            initialSelectedEndDateMillis = datetime.plusDays(3).toEpochSecond(),
-//            initialDisplayMode = DisplayMode.Picker,
-//            yearRange = (2023..2024)
-//        )
-//    }
 
     val formattedDate by remember {
         derivedStateOf {
@@ -62,7 +47,7 @@ fun CustomDatePicker(
         horizontalAlignment = Alignment.Start
     ) {
         if (label != null)
-            Text(
+            CustomText(
                 text = label,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.W500,
@@ -88,9 +73,9 @@ fun CustomDatePicker(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = formattedDate, fontSize = 16.sp, color = AppColors.Black)
+                CustomText(text = formattedDate, fontSize = 16.sp, color = AppColors.Black)
                 Image(
-                    painter = painterResource(id = R.drawable.ic_datepicker),
+                    painter = painterResource(id = AppImages.icDatePicker),
                     contentDescription = ""
                 )
             }
@@ -116,6 +101,9 @@ fun CustomDatePicker(
                 ),
             ) {
                 pickedDate = it
+
+//                onSelect(it.toEpochSecond(LocalTime.now(),ZoneOffset.UTC).toString())
+                onSelect(it)
             }
         }
     }

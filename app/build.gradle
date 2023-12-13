@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.expense_tracker"
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -57,7 +57,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
     implementation 'androidx.activity:activity-compose:1.8.1'
     implementation 'com.google.firebase:firebase-common-ktx:20.4.2'
-    implementation 'com.google.firebase:firebase-auth-ktx:22.3.0'
+    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -70,4 +70,17 @@ dependencies {
     implementation "com.google.firebase:firebase-auth"
     implementation "io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
+    implementation "com.patrykandpatrick.vico:compose:1.7.1"
+    implementation "io.coil-kt:coil-compose:2.2.2"
+    implementation "io.coil-kt:coil-svg:2.2.2"
+    implementation "com.google.firebase:firebase-firestore-ktx:24.10.0"
+
+    // For `compose`. Creates a `ChartStyle` based on an M2 Material Theme.
+    implementation "com.patrykandpatrick.vico:compose-m2:1.7.1"
+
+    // For `compose`. Creates a `ChartStyle` based on an M3 Material Theme.
+    implementation "com.patrykandpatrick.vico:compose-m3:1.7.1"
+
+    // Houses the core logic for charts and other elements. Included in all other modules.
+    implementation "com.patrykandpatrick.vico:core:1.7.1"
 }

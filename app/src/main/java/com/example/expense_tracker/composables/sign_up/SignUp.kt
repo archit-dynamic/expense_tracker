@@ -7,56 +7,49 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.expense_tracker.R
 import com.example.expense_tracker.animations.LoadingAnimation
 import com.example.expense_tracker.colors.AppColors
-import com.example.expense_tracker.composables.custom_composables.CustomButton
-import com.example.expense_tracker.composables.custom_composables.CustomUnderlinedTextField
-import com.example.expense_tracker.composables.custom_composables.HorizontalSpace
-import com.example.expense_tracker.composables.custom_composables.VerticalSpace
+import com.example.expense_tracker.composables.custom_composables.*
 import com.example.expense_tracker.enum.SignInState
-import com.example.expense_tracker.firebase.UserRepository
+import com.example.expense_tracker.strings.AppImages
 import com.example.expense_tracker.strings.Routes
-import com.example.expense_tracker.ui.theme.*
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.launch
-import java.sql.DriverManager.println
+import com.example.expense_tracker.ui.theme.Expense_trackerTheme
 
 @Composable
 fun SignUp(navController: NavHostController) {
 
-    var username by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var showPassword by remember { mutableStateOf(false) }
-    var signUpState by remember { mutableStateOf(SignInState.UNAUTHENTICATED) }
-    var showAuthenticationError by remember { mutableStateOf(false) }
-    var signUpErrorMessage by remember { mutableStateOf("") }
+//    var username by remember { mutableStateOf("") }
+//    var email by remember { mutableStateOf("") }
+//    var password by remember { mutableStateOf("") }
+//    var showPassword by remember { mutableStateOf(false) }
+//    val signUpState by remember { mutableStateOf(SignInState.UNAUTHENTICATED) }
+//    val showAuthenticationError by remember { mutableStateOf(false) }
+//    val signUpErrorMessage by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
+    val viewModel = viewModel<SignUpViewModel>()
 
-    fun onSignUpClick() {
+    /*fun onSignUpClick() {
 
-        var result: FirebaseUser?
+        var result: Any?
         signUpState = SignInState.INPROCESS
         coroutineScope.launch {
             result = UserRepository.createUser(email = email, password = password)
-            println("Result: ${result?.email}")
-            if (result != null) {
+            if (result is FirebaseUser?) {
                 signUpState = SignInState.AUTHENTICATED
                 signUpErrorMessage = ""
                 showAuthenticationError = false
@@ -66,16 +59,21 @@ fun SignUp(navController: NavHostController) {
                     }
                 }
             } else {
-                println("coroutineScope : Error in creating user")
-                signUpErrorMessage = "Oops something went wrong. Please try again"
+                Log.d("result", "$result")
+                signUpErrorMessage = if((result is String?) && result != ""){
+                    result as String
+                }else{
+                    "Oops something went wrong. Please try again"
+                }
+
                 showAuthenticationError = true
                 signUpState = SignInState.UNAUTHENTICATED
             }
         }
 
-    }
+    }*/
 
-    fun validateForm(): Boolean {
+    /*fun validateForm(): Boolean {
         if (email.trim().isEmpty()) {
             signUpErrorMessage = "Email should not be empty"
             showAuthenticationError = true
@@ -98,9 +96,9 @@ fun SignUp(navController: NavHostController) {
         }
         showAuthenticationError = false
         return true
-    }
+    }*/
 
-    if (signUpState == SignInState.INPROCESS || signUpState == SignInState.AUTHENTICATED) {
+    if (viewModel.signUpState == SignInState.INPROCESS || viewModel.signUpState == SignInState.AUTHENTICATED) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -122,9 +120,14 @@ fun SignUp(navController: NavHostController) {
                 modifier = Modifier
                     .defaultMinSize(110.dp)
             ) {
-                Text("Sign Up", color = AppColors.Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
-                if (showAuthenticationError) VerticalSpace(height = 8.dp)
-                if (showAuthenticationError) Row(
+                CustomText(
+                    "Sign Up",
+                    color = AppColors.Black,
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.W500
+                )
+                if (viewModel.showAuthenticationError) VerticalSpace(height = 8.dp)
+                if (viewModel.showAuthenticationError) Row(
                     modifier = Modifier
                         .border(
                             width = 1.dp,
@@ -138,12 +141,12 @@ fun SignUp(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_error),
+                        painter = painterResource(id = AppImages.icError),
                         contentDescription = "auth error",
                     )
                     HorizontalSpace(width = 10.dp)
-                    Text(
-                        signUpErrorMessage,
+                    CustomText(
+                        viewModel.signUpErrorMessage,
                         color = AppColors.ErrorColor,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W500,
@@ -152,12 +155,12 @@ fun SignUp(navController: NavHostController) {
             }
             VerticalSpace(height = 8.dp)
             CustomUnderlinedTextField(
-                value = username,
+                value = viewModel.username,
                 hintText = "Username",
-                onValueChange = { username = it },
+                onValueChange = { viewModel.username = it },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_username),
+                        painter = painterResource(id = AppImages.icUserName),
                         contentDescription = ""
                     )
                 },
@@ -165,12 +168,12 @@ fun SignUp(navController: NavHostController) {
             )
             VerticalSpace(height = 24.dp)
             CustomUnderlinedTextField(
-                value = email,
+                value = viewModel.email,
                 hintText = "Email",
-                onValueChange = { email = it },
+                onValueChange = { viewModel.email = it },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_email),
+                        painter = painterResource(id = AppImages.icEmail),
                         contentDescription = ""
                     )
                 },
@@ -178,32 +181,34 @@ fun SignUp(navController: NavHostController) {
             )
             VerticalSpace(height = 24.dp)
             CustomUnderlinedTextField(
-                value = password,
+                value = viewModel.password,
                 hintText = "Password",
-                onValueChange = { password = it },
+                onValueChange = { viewModel.password = it },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_password),
+                        painter = painterResource(id = AppImages.icPassword),
                         contentDescription = ""
                     )
                 },
                 trailingIcon = {
                     Icon(
-                        imageVector = if (showPassword) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                        imageVector = if (viewModel.showPassword) Icons.Default.Visibility else Icons.Default.VisibilityOff,
                         contentDescription = "show password",
-                        modifier = Modifier.clickable { showPassword = !showPassword },
+                        modifier = Modifier.clickable {
+                            viewModel.showPassword = !viewModel.showPassword
+                        },
                     )
                 },
-                keyboardType = KeyboardType.Password, showPassword = showPassword,
+                keyboardType = KeyboardType.Password, showPassword = viewModel.showPassword,
                 modifier = Modifier,
             )
             VerticalSpace(height = 36.dp)
             CustomButton(
                 text = "Sign Up",
-                suffixIcon = R.drawable.ic_keyboard_right_white,
+                suffixIcon = AppImages.icKeyBoardRightWhite,
                 onClick = {
-                    if (validateForm()) {
-                        onSignUpClick()
+                    if (viewModel.validateForm()) {
+                        viewModel.onSignUpClick(navController = navController)
                     }
                 },
             )
@@ -213,13 +218,13 @@ fun SignUp(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
+                CustomText(
                     "Have an account? ",
                     color = AppColors.Gray,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
                 )
-                Text(
+                CustomText(
                     "Sign In",
                     color = AppColors.ButtonColorGradiant1,
                     fontSize = 16.sp,

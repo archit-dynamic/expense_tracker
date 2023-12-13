@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.expense_tracker.animations.LoadingAnimation
+import com.example.expense_tracker.composables.custom_composables.CustomText
 import com.example.expense_tracker.composables.dashboard.MonthlyExpenseGraph
 import com.example.expense_tracker.composables.navigation.Nav
 import com.example.expense_tracker.ui.theme.Expense_trackerTheme
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    CustomText(text = "Hello $name!")
 }
 
 @Preview(showBackground = true)

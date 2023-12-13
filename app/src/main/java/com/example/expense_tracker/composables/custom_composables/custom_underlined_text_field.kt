@@ -38,7 +38,7 @@ fun CustomUnderlinedTextField(
     ) {
         TextField(
             value = value,
-            placeholder = { Text(text = hintText, color = AppColors.HintTextColor) },
+            placeholder = { CustomText(text = hintText, color = AppColors.HintTextColor) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,

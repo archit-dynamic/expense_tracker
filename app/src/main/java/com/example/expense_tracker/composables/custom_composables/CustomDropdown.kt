@@ -22,7 +22,8 @@ import com.example.expense_tracker.colors.AppColors
 @Composable
 fun CustomDropdown(
     label: String? = null,
-    list: List<String>
+    list: List<String>,
+    onSelect: (String)->Unit
 ) {
 
     val expanded = remember {
@@ -35,7 +36,7 @@ fun CustomDropdown(
 
     Column {
         if (label != null)
-            Text(
+            CustomText(
                 text = label,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.W500,
@@ -81,8 +82,9 @@ fun CustomDropdown(
                     DropdownMenuItem(onClick = {
                         selectedItem.value = label
                         expanded.value = false
+                        onSelect(label)
                     }) {
-                        Text(text = label)
+                        CustomText(text = label)
                     }
                 }
             }

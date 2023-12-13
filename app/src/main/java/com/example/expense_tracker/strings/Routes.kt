@@ -4,11 +4,11 @@ class Routes {
 
     companion object{
 
-        val signIn: String = "signIn"
-        val signUp: String = "signUP"
-        val forgotPassword: String = "forgotPassword"
-        val dashboard: String = "dashboard"
-        val expenseEntry: String = "expenseEntry"
+        const val signIn: String = "signIn"
+        const val signUp: String = "signUP"
+        const val forgotPassword: String = "forgotPassword"
+        const val dashboard: String = "dashboard"
+        const val expenseEntry: String = "expenseEntry"
 
     }
 

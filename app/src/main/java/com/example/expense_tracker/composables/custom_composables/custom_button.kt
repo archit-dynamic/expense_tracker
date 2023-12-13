@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expense_tracker.R
 import com.example.expense_tracker.colors.AppColors
+import com.example.expense_tracker.strings.AppImages
 import com.example.expense_tracker.ui.theme.Expense_trackerTheme
 
 @Composable
@@ -33,7 +34,7 @@ fun CustomButton(
         ),
         onClick = onClick
     ) {
-        Text(
+        CustomText(
             text = text,
             color = AppColors.White,
             textAlign = TextAlign.Center,
@@ -53,7 +54,7 @@ fun CustomButtonPreview() {
     Expense_trackerTheme {
         CustomButton(
             text = "Click Me",
-            suffixIcon = R.drawable.ic_keyboard_right_white,
+            suffixIcon = AppImages.icKeyBoardRightWhite,
             onClick = {},
         )
     }

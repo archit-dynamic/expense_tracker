@@ -17,6 +17,8 @@ class AppColors {
         val ErrorColor = Color.Red
         val ButtonColorGradiant1 = Color(0xFF683eee)
         val ButtonColorGradiant2 = Color(0xFF2c0a82)
+        val TabBorder = Color(0xFFA3AEEB)
+        val ExpenseCardBackground = Color(0xFFA3AEEB).copy(0.2f)
     }
 
 }

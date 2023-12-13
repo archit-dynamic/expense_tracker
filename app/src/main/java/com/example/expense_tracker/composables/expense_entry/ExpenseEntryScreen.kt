@@ -1,25 +1,33 @@
 package com.example.expense_tracker.composables.expense_entry
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.expense_tracker.R
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.composables.custom_composables.*
-import com.google.android.gms.common.util.CollectionUtils
+import com.example.expense_tracker.firebase.UserRepository
+import com.example.expense_tracker.models.Expense
+import com.example.expense_tracker.strings.AppImages
+import java.time.*
+import java.util.*
 
 @Composable
 fun ExpenseEntryScreen() {
+
+    val viewModel = viewModel<ExpenseEntryViewModel>()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -36,19 +44,19 @@ fun ExpenseEntryScreen() {
             contentAlignment = Alignment.Center,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_close),
+                painter = painterResource(id = AppImages.icClose),
                 contentDescription = "close expense entry screen",
             )
         }
         VerticalSpace(height = 16.dp)
-        Text(
+        CustomText(
             text = "Add new expense",
             fontWeight = FontWeight.Bold,
             color = AppColors.Black,
             fontSize = 24.sp
         )
         VerticalSpace(height = 4.dp)
-        Text(
+        CustomText(
             text = "Enter the details of your expense to help you track your spending.",
             fontWeight = FontWeight.W500,
             color = AppColors.Gray,
@@ -57,30 +65,70 @@ fun ExpenseEntryScreen() {
         VerticalSpace(height = 16.dp)
         CustomBorderedTextFieldWithLabel(
             modifier = Modifier,
-            onValueChange = {},
-            value = "",
+            onValueChange = {
+                viewModel.amount = it
+            },
+            value = viewModel.amount,
             label = "Enter Amount",
             hintText = "Enter Amount"
         )
         VerticalSpace(height = 16.dp)
         CustomBorderedTextFieldWithLabel(
             modifier = Modifier,
-            onValueChange = {},
-            value = "",
+            onValueChange = {
+                viewModel.description = it
+            },
+            value = viewModel.description,
             label = "Description",
             hintText = "Description",
         )
         VerticalSpace(height = 16.dp)
         CustomDropdown(
             label = "Category",
-            list = listOf("first", "second", "third", "fourth")
+            list = listOf("first", "second", "third", "fourth"),
+            onSelect = {
+                viewModel.category = it
+            }
         )
         VerticalSpace(height = 16.dp)
         CustomDatePicker(
-            label = "Date"
+            label = "Date",
+            onSelect = {
+//                viewModel.date = it
+                val dateTime = Instant.ofEpochSecond(
+                    ZonedDateTime.of(
+                        LocalDateTime.of(
+                            it,
+                            LocalTime.MIN
+                        ), ZoneId.of(ZoneId.systemDefault().toString())
+                    ).toEpochSecond()
+                ).toEpochMilli()
+                Log.d("local date it", "$dateTime")
+            }
         )
         VerticalSpace(height = 24.dp)
-        CustomButton(text = "Add Expense", onClick = {})
+        CustomButton(
+            text = "Add Expense",
+            onClick = {
+                val expense = Expense(
+                    id = UUID.randomUUID().toString(),
+                    title = viewModel.description,
+                    description = viewModel.description,
+                    category = viewModel.category,
+                    date = if (viewModel.date == "") Instant.now().toEpochMilli()
+                        .toString() else viewModel.date,
+                    amount = viewModel.amount,
+                    userid = UserRepository.getCurrentUser()?.uid
+                )
+                viewModel.onAddExpenseClick(
+                    expense = expense,
+                    epocTime = if (viewModel.date == "") Instant.now().toEpochMilli()
+                        .toString() else viewModel.date,
+                    userId = UserRepository.getCurrentUser()?.uid ?: "",
+                    context = context,
+                )
+            },
+        )
     }
 
 }

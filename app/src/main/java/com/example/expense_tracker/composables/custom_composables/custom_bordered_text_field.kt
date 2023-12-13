@@ -44,7 +44,7 @@ fun CustomBorderedTextFieldWithLabel(
         verticalArrangement = Arrangement.Top
     ) {
         if (label != null)
-            Text(
+            CustomText(
                 text = label,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.W500,
@@ -54,7 +54,7 @@ fun CustomBorderedTextFieldWithLabel(
             VerticalSpace(height = 4.dp)
         OutlinedTextField(
             value = value,
-            placeholder = { Text(text = hintText, color = AppColors.HintTextColor) },
+            placeholder = { CustomText(text = hintText, color = AppColors.HintTextColor) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,

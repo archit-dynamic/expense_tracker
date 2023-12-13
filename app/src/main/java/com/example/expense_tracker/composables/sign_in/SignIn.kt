@@ -25,12 +25,10 @@ import androidx.navigation.NavHostController
 import com.example.expense_tracker.R
 import com.example.expense_tracker.animations.LoadingAnimation
 import com.example.expense_tracker.colors.AppColors
-import com.example.expense_tracker.composables.custom_composables.CustomButton
-import com.example.expense_tracker.composables.custom_composables.CustomUnderlinedTextField
-import com.example.expense_tracker.composables.custom_composables.HorizontalSpace
-import com.example.expense_tracker.composables.custom_composables.VerticalSpace
+import com.example.expense_tracker.composables.custom_composables.*
 import com.example.expense_tracker.enum.SignInState
 import com.example.expense_tracker.firebase.UserRepository
+import com.example.expense_tracker.strings.AppImages
 import com.example.expense_tracker.strings.Routes
 import com.example.expense_tracker.ui.theme.*
 import com.google.firebase.auth.FirebaseUser
@@ -114,7 +112,7 @@ fun SignIn(navController: NavHostController) {
                 modifier = Modifier
                     .defaultMinSize(110.dp)
             ) {
-                Text("Sign In", color = AppColors.Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
+                CustomText("Sign In", color = AppColors.Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
                 if (showAuthenticationError) VerticalSpace(height = 8.dp)
                 if (showAuthenticationError) Row(
                     modifier = Modifier
@@ -130,11 +128,11 @@ fun SignIn(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_error),
+                        painter = painterResource(id = AppImages.icError),
                         contentDescription = "auth error",
                     )
                     HorizontalSpace(width = 10.dp)
-                    Text(
+                    CustomText(
                         signInErrorMessage,
                         color = AppColors.ErrorColor,
                         fontSize = 16.sp,
@@ -149,7 +147,7 @@ fun SignIn(navController: NavHostController) {
                 onValueChange = { email = it },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_username),
+                        painter = painterResource(id = AppImages.icUserName),
                         contentDescription = ""
                     )
                 },
@@ -162,7 +160,7 @@ fun SignIn(navController: NavHostController) {
                 onValueChange = { password = it },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_password),
+                        painter = painterResource(id = AppImages.icPassword),
                         contentDescription = ""
                     )
                 },
@@ -181,7 +179,7 @@ fun SignIn(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                Text(
+                CustomText(
                     "Forgot Password?",
                     color = AppColors.ButtonColorGradiant1,
                     fontSize = 16.sp,
@@ -198,7 +196,7 @@ fun SignIn(navController: NavHostController) {
             VerticalSpace(height = 24.dp)
             CustomButton(
                 text = "Sign In",
-                suffixIcon = R.drawable.ic_keyboard_right_white,
+                suffixIcon = AppImages.icKeyBoardRightWhite,
                 onClick = {
                     if (validateForm()) {
                         onSignInClick()
@@ -211,13 +209,13 @@ fun SignIn(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
+                CustomText(
                     "Don't have an account? ",
                     color = AppColors.Gray,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
                 )
-                Text(
+                CustomText(
                     "Sign Up",
                     color = AppColors.ButtonColorGradiant1,
                     fontSize = 16.sp,

@@ -16,8 +16,10 @@ import androidx.navigation.NavHostController
 import com.example.expense_tracker.R
 import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.composables.custom_composables.CustomButton
+import com.example.expense_tracker.composables.custom_composables.CustomText
 import com.example.expense_tracker.composables.custom_composables.CustomUnderlinedTextField
 import com.example.expense_tracker.composables.custom_composables.VerticalSpace
+import com.example.expense_tracker.strings.AppImages
 import com.example.expense_tracker.strings.Routes
 
 @Composable
@@ -33,7 +35,7 @@ fun ForgotPassword(navController: NavHostController) {
             .background(color = AppColors.White)
             .padding(horizontal = 24.dp),
     ) {
-        Text("Forgot Password", color = AppColors.Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
+        CustomText("Forgot Password", color = AppColors.Black, fontSize = 32.sp, fontWeight = FontWeight.W500)
         VerticalSpace(height = 50.dp)
         CustomUnderlinedTextField(
             value = email,
@@ -41,7 +43,7 @@ fun ForgotPassword(navController: NavHostController) {
             onValueChange = { email = it },
             leadingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_username),
+                    painter = painterResource(id = AppImages.icUserName),
                     contentDescription = ""
                 )
             },
@@ -50,7 +52,7 @@ fun ForgotPassword(navController: NavHostController) {
         VerticalSpace(height = 36.dp)
         CustomButton(
             text = "Send",
-            suffixIcon = R.drawable.ic_keyboard_right_white,
+            suffixIcon = AppImages.icKeyBoardRightWhite,
             onClick = {},
         )
         VerticalSpace(height = 24.dp)
@@ -59,13 +61,13 @@ fun ForgotPassword(navController: NavHostController) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
+            CustomText(
                 "Back to ",
                 color = AppColors.Gray,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W500,
             )
-            Text(
+            CustomText(
                 "Sign In",
                 color = AppColors.ButtonColorGradiant1,
                 fontSize = 16.sp,
@@ -80,7 +82,7 @@ fun ForgotPassword(navController: NavHostController) {
             )
         }
         VerticalSpace(height = 36.dp)
-        Text(
+        CustomText(
             "Your new password has been sent to you on your mail.",
             color = AppColors.Black,
             fontSize = 12.sp,
