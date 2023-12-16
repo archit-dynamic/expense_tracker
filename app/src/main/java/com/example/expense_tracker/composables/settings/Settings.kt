@@ -13,10 +13,10 @@ import com.example.expense_tracker.composables.custom_composables.CustomButton
 import com.example.expense_tracker.firebase.UserRepository
 
 @Composable
-fun Settings(navHostController: NavHostController) {
+fun Settings(navHostController: NavHostController,modifier: Modifier = Modifier) {
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(all = 20.dp),
+        modifier = modifier.fillMaxSize().padding(all = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

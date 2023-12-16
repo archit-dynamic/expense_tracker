@@ -3,21 +3,24 @@ package com.example.expense_tracker.composables.dashboard
 import android.graphics.Typeface
 import android.text.TextUtils
 import android.util.Log
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Card
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import com.example.expense_tracker.animations.LoadingAnimation
 import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.enum.DashboardTab
-import com.example.expense_tracker.firebase.ExpenseRepository
-import com.example.expense_tracker.firebase.UserRepository
-import com.example.expense_tracker.models.Expense
 import com.example.expense_tracker.utils.Utils
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
@@ -35,8 +38,6 @@ import com.patrykandpatrick.vico.core.entry.FloatEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Composable
 fun MonthlyExpenseGraph(
@@ -45,8 +46,8 @@ fun MonthlyExpenseGraph(
     tab: DashboardTab = DashboardTab.Today
 ) {
 
-    val refreshDataset = remember {
-        mutableIntStateOf(0)
+    val showValueCard = remember {
+        mutableStateOf(false)
     }
 
     val modelProducer = remember {
@@ -64,9 +65,10 @@ fun MonthlyExpenseGraph(
     val scrollState = rememberChartScrollState()
 
     val marker = rememberMarker()
+    
+    
 
     LaunchedEffect(key1 = tab) {
-
         Log.d("DashboardTab","$tab" )
         datasetForModel.clear()
         datasetLineSpec.clear()
@@ -86,33 +88,41 @@ fun MonthlyExpenseGraph(
         )
         when (tab) {
             DashboardTab.Today -> {
+                showValueCard.value = true
                 CoroutineScope(Dispatchers.IO).launch {
-                    dataPoints = viewModel.getTodayDataPoints()
-
+                    dataPoints = viewModel.getTodayDataPoints().first
+                    viewModel.expenseData = viewModel.getTodayDataPoints().second
+                    Log.d("viewModel.expenseData","${viewModel.expenseData.size}")
                     datasetForModel.add(dataPoints)
                     modelProducer.setEntries(datasetForModel)
                 }
             }
             DashboardTab.LastSevenDays -> {
+                showValueCard.value = false
                 CoroutineScope(Dispatchers.IO).launch {
-                    dataPoints = viewModel.getLast7DaysDataPoints()
-
+                    dataPoints = viewModel.getLast7DaysDataPoints().first
+                    viewModel.expenseData = viewModel.getLast7DaysDataPoints().second
+                    Log.d("viewModel.expenseData","${viewModel.expenseData.size}")
                     datasetForModel.add(dataPoints)
                     modelProducer.setEntries(datasetForModel)
                 }
             }
             DashboardTab.LastThirtyDays -> {
+                showValueCard.value = false
                 CoroutineScope(Dispatchers.IO).launch {
-                    dataPoints = viewModel.getLast30DaysDataPoints()
-
+                    dataPoints = viewModel.getLast30DaysDataPoints().first
+                    viewModel.expenseData = viewModel.getLast30DaysDataPoints().second
+                    Log.d("viewModel.expenseData","${viewModel.expenseData.size}")
                     datasetForModel.add(dataPoints)
                     modelProducer.setEntries(datasetForModel)
                 }
             }
             DashboardTab.ThisMonth -> {
+                showValueCard.value = false
                 CoroutineScope(Dispatchers.IO).launch {
-                    dataPoints = viewModel.getThisMonthsDataPoints()
-
+                    dataPoints = viewModel.getThisMonthsDataPoints().first
+                    viewModel.expenseData = viewModel.getThisMonthsDataPoints().second
+                    Log.d("viewModel.expenseData","${viewModel.expenseData.size}")
                     datasetForModel.add(dataPoints)
                     modelProducer.setEntries(datasetForModel)
                 }
@@ -122,13 +132,17 @@ fun MonthlyExpenseGraph(
 
     if(viewModel.isChartLoading){
         Column(
-            modifier = Modifier.height(300.dp).fillMaxWidth(),
+            modifier = Modifier
+                .height(300.dp)
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             LoadingAnimation()
         }
-    }else{
+    }else if(showValueCard.value){
+        TodayTabExpenseCard("10000")
+    }else {
         Column(
             modifier = Modifier
                 .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally

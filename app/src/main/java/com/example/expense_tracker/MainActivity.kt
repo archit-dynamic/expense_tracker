@@ -1,11 +1,15 @@
 package com.example.expense_tracker
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -22,6 +26,8 @@ import com.example.expense_tracker.strings.Routes
 import com.example.expense_tracker.ui.theme.Expense_trackerTheme
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -44,18 +50,22 @@ class MainActivity : ComponentActivity() {
                     // Show BottomBar and TopBar
                     bottomBarState = true
                 }
+
                 Routes.expenseEntry -> {
                     // Show BottomBar and TopBar
                     bottomBarState = true
                 }
+
                 Routes.signIn -> {
                     // Show BottomBar and TopBar
                     bottomBarState = false
                 }
+
                 Routes.signUp -> {
                     // Hide BottomBar and TopBar
                     bottomBarState = false
                 }
+
                 Routes.forgotPassword -> {
                     // Hide BottomBar and TopBar
                     bottomBarState = false
@@ -88,8 +98,11 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                    ) {
-                        Nav(navController = navController)
+                    ) { innerPadding ->
+                        Nav(
+                            navController = navController,
+                            modifier = Modifier.padding(innerPadding),
+                        )
                     }
 
                 }

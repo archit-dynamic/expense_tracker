@@ -1,12 +1,17 @@
 package com.example.expense_tracker.composables.expense_entry
 
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -15,20 +20,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.composables.custom_composables.*
-import com.example.expense_tracker.firebase.UserRepository
 import com.example.expense_tracker.strings.AppImages
 import java.time.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ExpenseEntryScreen() {
+fun ExpenseEntryScreen(navController: NavHostController,modifier: Modifier = Modifier) {
 
     val viewModel = viewModel<ExpenseEntryViewModel>()
     val context = LocalContext.current
+    val interactionSource = remember { MutableInteractionSource() }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(all = 20.dp),
         horizontalAlignment = Alignment.Start,
@@ -38,7 +45,13 @@ fun ExpenseEntryScreen() {
             modifier = Modifier
                 .size(height = 36.dp, width = 36.dp)
                 .border(color = AppColors.BackCircle.copy(0.1f), width = 2.dp, shape = CircleShape)
-                .background(color = AppColors.BackCircle.copy(0.2f), shape = CircleShape),
+                .background(color = AppColors.BackCircle.copy(0.2f), shape = CircleShape)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
+                    navController.popBackStack()
+                },
             contentAlignment = Alignment.Center,
         ) {
             Image(
@@ -83,7 +96,7 @@ fun ExpenseEntryScreen() {
         VerticalSpace(height = 16.dp)
         CustomDropdown(
             label = "Category",
-            list = listOf("first", "second", "third", "fourth"),
+            list = listOf("education", "entertainment", "expense", "food", "home", "shopping", "travel"),
             onSelect = {
                 viewModel.category = it
             }

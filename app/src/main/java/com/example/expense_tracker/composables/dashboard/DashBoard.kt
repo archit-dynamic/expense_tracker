@@ -16,52 +16,7 @@ import com.example.expense_tracker.ui.theme.Expense_trackerTheme
 import com.google.android.gms.common.util.CollectionUtils.listOf
 
 @Composable
-fun DashBoard() {
-
-    val expenseList = listOf(
-        Expense(
-            title = "Expense 1",
-            amount = "100",
-            date = "27 Sep 2000",
-            category = "Food",
-            description = "Food for thought"
-        ),
-        Expense(
-            title = "Expense 1",
-            amount = "100",
-            date = "27 Sep 2000",
-            category = "Food",
-            description = "Food for thought"
-        ),
-        Expense(
-            title = "Expense 1",
-            amount = "100",
-            date = "27 Sep 2000",
-            category = "Food",
-            description = "Food for thought"
-        ),
-        Expense(
-            title = "Expense 1",
-            amount = "100",
-            date = "27 Sep 2000",
-            category = "Food",
-            description = "Food for thought"
-        ),
-        Expense(
-            title = "Expense 1",
-            amount = "100",
-            date = "27 Sep 2000",
-            category = "Food",
-            description = "Food for thought"
-        ),
-        Expense(
-            title = "Expense 1",
-            amount = "100",
-            date = "27 Sep 2000",
-            category = "Food",
-            description = "Food for thought"
-        ),
-    )
+fun DashBoard(modifier: Modifier = Modifier) {
 
     val viewModel = viewModel<DashboardViewModel>()
     var selectedTab by remember {
@@ -69,7 +24,7 @@ fun DashBoard() {
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .fillMaxWidth()
             .padding(all = 20.dp),
@@ -82,7 +37,7 @@ fun DashBoard() {
         VerticalSpace(height = 24.dp)
         MonthlyExpenseGraph(bottomLabel = "Hours", viewModel = viewModel, tab = selectedTab)
         VerticalSpace(height = 24.dp)
-        DashBoardExpensesSection(title = "Today, 3 Oct", expenseList = expenseList)
+        DashBoardExpensesSection(title = "Today, 3 Oct", expenseList = viewModel.expenseData)
     }
 
 }

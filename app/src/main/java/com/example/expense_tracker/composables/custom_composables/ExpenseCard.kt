@@ -16,12 +16,12 @@ import com.example.expense_tracker.utils.Utils
 
 @Composable
 fun ExpenseCard(
+    modifier: Modifier = Modifier,
     title: String,
     date: String,
     icon: Int = AppImages.icLauncherBackground,
     amount: String,
     category: String,
-    modifier: Modifier = Modifier
 ) {
 
     Box(
@@ -40,7 +40,7 @@ fun ExpenseCard(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CustomAvatar(image = icon, radius = 22f, borderColor = AppColors.White)
+                CustomAvatar(image = Utils.getCategoryImage(category.lowercase()), radius = 22f, borderColor = AppColors.White)
                 HorizontalSpace(width = 10.dp)
                 Column(
                     horizontalAlignment = Alignment.Start,

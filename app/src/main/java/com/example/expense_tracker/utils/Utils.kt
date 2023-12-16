@@ -1,6 +1,8 @@
 package com.example.expense_tracker.utils
 
 import android.util.Log
+import androidx.compose.ui.text.toUpperCase
+import com.example.expense_tracker.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,6 +76,34 @@ class Utils {
 
             // Format the date
             return dateFormat.format(calendar.time)
+        }
+
+        fun getCategoryImage(categoryName: String): Int{
+            when(categoryName){
+                "education"->{
+                    return R.drawable.ic_category_education
+                }
+                "entertainment"->{
+                    return R.drawable.ic_category_entertainment
+                }
+                "food"->{
+                    return R.drawable.ic_category_food
+                }
+                "home"->{
+                    return R.drawable.ic_category_home
+                }
+                "shopping"->{
+                    return R.drawable.ic_category_shopping
+                }
+                "travel"->{
+                    return R.drawable.ic_category_travel
+                }
+            }
+            return R.drawable.ic_category_expense
+        }
+
+        fun toCapitalizeFirstLetter(str: String): String{
+            return str.substring(0,1).uppercase() +str.substring(1,str.length)
         }
 
     }

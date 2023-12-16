@@ -25,7 +25,7 @@ class UserRepository {
             try {
                 return FirebaseAuth
                     .getInstance()
-                    .createUserWithEmailAndPassword(email, password)
+                    .createUserWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             Log.d(Tags.firebase, "User successfully created.")
@@ -44,7 +44,7 @@ class UserRepository {
             try {
                 return FirebaseAuth
                     .getInstance()
-                    .signInWithEmailAndPassword(email, password)
+                    .signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             Log.d(Tags.firebase, "User successfully signed in.")
