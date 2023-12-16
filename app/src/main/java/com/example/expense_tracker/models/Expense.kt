@@ -6,6 +6,7 @@ data class Expense(
     var title: String? = null,
     var description: String? = null,
     var amount: String? = null,
+    var epocTime: String? = null,
     var date: String? = null,
     var category: String? = null,
 )

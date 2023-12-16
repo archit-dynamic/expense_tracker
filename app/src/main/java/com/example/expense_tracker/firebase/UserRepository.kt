@@ -3,7 +3,10 @@ package com.example.expense_tracker.firebase
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.expense_tracker.models.AppUser
+import com.example.expense_tracker.strings.Routes
 import com.example.expense_tracker.strings.StorageReference
 import com.example.expense_tracker.strings.Tags
 import com.google.firebase.auth.FirebaseAuth
@@ -101,8 +104,18 @@ class UserRepository {
             return FirebaseAuth.getInstance().currentUser
         }
 
-        fun signOut(){
-            return FirebaseAuth.getInstance().signOut()
+        fun signOut(navHostController: NavHostController){
+            try {
+                FirebaseAuth.getInstance().signOut()
+                navHostController.navigate(Routes.signIn){
+                    popUpTo(navHostController.graph.id){
+                        inclusive = true
+                    }
+                }
+
+            }catch (e: Exception){
+                Log.d(Tags.firebase,"$e")
+            }
         }
 
     }

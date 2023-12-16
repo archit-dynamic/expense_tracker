@@ -18,10 +18,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.expense_tracker.colors.AppColors
 import com.example.expense_tracker.composables.custom_composables.*
 import com.example.expense_tracker.firebase.UserRepository
-import com.example.expense_tracker.models.Expense
 import com.example.expense_tracker.strings.AppImages
 import java.time.*
-import java.util.*
 
 @Composable
 fun ExpenseEntryScreen() {
@@ -94,41 +92,37 @@ fun ExpenseEntryScreen() {
         CustomDatePicker(
             label = "Date",
             onSelect = {
-//                viewModel.date = it
-                val dateTime = Instant.ofEpochSecond(
+                viewModel.epocTime = Instant.ofEpochSecond(
                     ZonedDateTime.of(
                         LocalDateTime.of(
                             it,
-                            LocalTime.MIN
+                            LocalTime.now()
                         ), ZoneId.of(ZoneId.systemDefault().toString())
                     ).toEpochSecond()
-                ).toEpochMilli()
-                Log.d("local date it", "$dateTime")
+                ).toEpochMilli().toString()
+                viewModel.date = it.toString()
             }
         )
         VerticalSpace(height = 24.dp)
         CustomButton(
             text = "Add Expense",
             onClick = {
-                val expense = Expense(
-                    id = UUID.randomUUID().toString(),
-                    title = viewModel.description,
-                    description = viewModel.description,
-                    category = viewModel.category,
-                    date = if (viewModel.date == "") Instant.now().toEpochMilli()
-                        .toString() else viewModel.date,
-                    amount = viewModel.amount,
-                    userid = UserRepository.getCurrentUser()?.uid
-                )
-                viewModel.onAddExpenseClick(
-                    expense = expense,
-                    epocTime = if (viewModel.date == "") Instant.now().toEpochMilli()
-                        .toString() else viewModel.date,
-                    userId = UserRepository.getCurrentUser()?.uid ?: "",
-                    context = context,
-                )
+                viewModel.onAddExpenseClick(context = context)
             },
         )
+        /*       CustomButton(
+                   text = "Get Daily Expenses",
+                   onClick = {
+                       viewModel.getDailyExpense(userId = UserRepository.getCurrentUser()?.uid ?: "", startDate = "2023-12-01", endDate = "2023-12-15")
+                   },
+               )
+               CustomButton(
+                   text = "Get Weekly Expenses",
+                   onClick = {
+                             viewModel.getLast7DaysBounds()
+       //                viewModel.getWeeklyExpense(userId = UserRepository.getCurrentUser()?.uid ?: "", startDate = "2023-12-01", endDate = "2023-12-15")
+                   },
+               )*/
     }
 
 }
