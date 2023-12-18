@@ -44,30 +44,13 @@ class MainActivity : ComponentActivity() {
             // Subscribe to navBackStackEntry, required to get current route
             val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-            // Control TopBar and BottomBar
+            // Control BottomBar
             when (navBackStackEntry?.destination?.route) {
-                Routes.dashboard -> {
-                    // Show BottomBar and TopBar
+                Routes.dashboard, Routes.expenseEntry, Routes.reports, Routes.settings -> {
                     bottomBarState = true
                 }
 
-                Routes.expenseEntry -> {
-                    // Show BottomBar and TopBar
-                    bottomBarState = true
-                }
-
-                Routes.signIn -> {
-                    // Show BottomBar and TopBar
-                    bottomBarState = false
-                }
-
-                Routes.signUp -> {
-                    // Hide BottomBar and TopBar
-                    bottomBarState = false
-                }
-
-                Routes.forgotPassword -> {
-                    // Hide BottomBar and TopBar
+                Routes.signIn, Routes.signUp, Routes.forgotPassword -> {
                     bottomBarState = false
                 }
             }
@@ -87,12 +70,19 @@ class MainActivity : ComponentActivity() {
                                     onItemSelect = {
                                         Log.d("Current Tab", currentScreen.id)
                                         currentScreen = it
-                                        if (currentScreen == Screen.Home) {
-                                            navController.navigate(Routes.dashboard)
-                                        } else if (currentScreen == Screen.Search) {
-                                            navController.navigate(Routes.expenseEntry)
-                                        } else if (currentScreen == Screen.Settings) {
-                                            navController.navigate(Routes.settings)
+                                        when (currentScreen) {
+                                            Screen.Home -> {
+                                                navController.navigate(Routes.dashboard)
+                                            }
+                                            Screen.Search -> {
+                                                navController.navigate(Routes.expenseEntry)
+                                            }
+                                            Screen.Settings -> {
+                                                navController.navigate(Routes.settings)
+                                            }
+                                            Screen.Reports -> {
+                                                navController.navigate(Routes.reports)
+                                            }
                                         }
                                     },
                                 )
