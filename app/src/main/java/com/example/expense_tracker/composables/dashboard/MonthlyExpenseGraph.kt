@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.text.TextUtils
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.example.expense_tracker.animations.LoadingAnimation
 import com.example.expense_tracker.colors.AppColors
+import com.example.expense_tracker.composables.custom_composables.VerticalSpace
 import com.example.expense_tracker.enum.DashboardTab
 import com.example.expense_tracker.utils.Utils
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
@@ -38,6 +40,8 @@ import com.patrykandpatrick.vico.core.entry.FloatEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
 
 @Composable
 fun MonthlyExpenseGraph(
@@ -130,7 +134,7 @@ fun MonthlyExpenseGraph(
         }
     }
 
-    if(viewModel.isChartLoading){
+    if(viewModel.isChartLoading && !showValueCard.value){
         Column(
             modifier = Modifier
                 .height(300.dp)
@@ -140,8 +144,8 @@ fun MonthlyExpenseGraph(
         ) {
             LoadingAnimation()
         }
-    }else if(showValueCard.value){
-        TodayTabExpenseCard("10000")
+    } else if(showValueCard.value){
+        VerticalSpace(height = 0.dp)
     }else {
         Column(
             modifier = Modifier
@@ -179,7 +183,16 @@ fun MonthlyExpenseGraph(
                                 title = bottomLabel,
                                 tickLength = 0.dp,
                                 valueFormatter = { value, _ ->
+                                    /*var number= 0
+                                    if(viewModel.selectedTab == DashboardTab.LastSevenDays){
+                                        number = 7 - value.toInt()
+                                    }else if(viewModel.selectedTab == DashboardTab.LastThirtyDays){
+                                        number = 30 - value.toInt()
+                                    }else if(viewModel.selectedTab == DashboardTab.ThisMonth){
+                                        number = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) - value.toInt()
+                                    }*/
                                     Utils.convertNumberToActualDate(value.toInt())
+
                                 },
                                 guideline = null,
                                 label = textComponent {

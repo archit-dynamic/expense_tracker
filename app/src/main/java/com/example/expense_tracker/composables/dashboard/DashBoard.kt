@@ -1,43 +1,63 @@
 package com.example.expense_tracker.composables.dashboard
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.expense_tracker.composables.custom_composables.VerticalSpace
-import com.example.expense_tracker.enum.DashboardTab
-import com.example.expense_tracker.models.Expense
 import com.example.expense_tracker.ui.theme.Expense_trackerTheme
-import com.google.android.gms.common.util.CollectionUtils.listOf
 
 @Composable
 fun DashBoard(modifier: Modifier = Modifier) {
 
     val viewModel = viewModel<DashboardViewModel>()
-    var selectedTab by remember {
-        mutableStateOf(DashboardTab.LastThirtyDays)
-    }
+
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .fillMaxWidth()
-            .padding(all = 20.dp),
+            .padding(start = 20.dp, top = 20.dp, end = 20.dp),
     ) {
         DashBoardGreeting()
         VerticalSpace(height = 24.dp)
         DashBoardTimeTabs(onTabClick = {
-            selectedTab = it
+            viewModel.selectedTab = it
         })
         VerticalSpace(height = 24.dp)
-        MonthlyExpenseGraph(bottomLabel = "Hours", viewModel = viewModel, tab = selectedTab)
-        VerticalSpace(height = 24.dp)
-        DashBoardExpensesSection(title = "Today, 3 Oct", expenseList = viewModel.expenseData)
+        DashboardExpenseCard(
+            amount = viewModel.getTotalExpense().toString(),
+            viewModel = viewModel,
+        )
+        VerticalSpace(height = 8.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start,
+        ) {
+            MonthlyExpenseGraph(
+                bottomLabel = viewModel.bottomAxisLAbel(),
+                viewModel = viewModel,
+                tab = viewModel.selectedTab
+            )
+            VerticalSpace(height = 24.dp)
+            DashBoardExpensesSection(
+                title = viewModel.getExpenseSectionTitle().uppercase(),
+                expenseList = viewModel.expenseData,
+                viewModel = viewModel,
+            )
+        }
     }
 
 }

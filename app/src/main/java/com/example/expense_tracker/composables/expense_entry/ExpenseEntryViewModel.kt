@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.exp
@@ -24,13 +25,15 @@ class ExpenseEntryViewModel : ViewModel() {
 
     var amount by mutableStateOf("")
     var description by mutableStateOf("")
-    var category by mutableStateOf("expense")
+    var title by mutableStateOf("")
+    var category by mutableStateOf("")
     var epocTime by mutableStateOf("")
     var date by mutableStateOf("")
 
     fun clearData(){
         amount = ""
         description = ""
+        title = ""
         category = ""
         epocTime = ""
         date = ""
@@ -41,10 +44,10 @@ class ExpenseEntryViewModel : ViewModel() {
 
             val expense = Expense(
                 id = UUID.randomUUID().toString(),
-                title = description,
+                title = title,
                 description = description,
-                category = category,
-                date = if (date == "") LocalDateTime.now()
+                category = if (category == "") "expense" else category,
+                date = if (date == "") LocalDate.now()
                     .toString() else date,
                 epocTime = if (epocTime == "") Instant.now().toEpochMilli()
                     .toString() else epocTime,
@@ -58,6 +61,9 @@ class ExpenseEntryViewModel : ViewModel() {
                     .toString() else epocTime,
                 expense = expense,
             )
+            if(result == "Expense successfully added"){
+                clearData()
+            }
             CoroutineScope(Dispatchers.Main).launch {
                 Toast.makeText(context, result, Toast.LENGTH_LONG).show()
             }

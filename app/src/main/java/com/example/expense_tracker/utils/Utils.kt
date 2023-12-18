@@ -3,6 +3,8 @@ package com.example.expense_tracker.utils
 import android.util.Log
 import androidx.compose.ui.text.toUpperCase
 import com.example.expense_tracker.R
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,8 +15,14 @@ class Utils {
             return "\u20B9"
         }
 
-        fun getTodayBounds(): Pair<String, String> {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        fun roundOffDecimal(number: Float): Float? {
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+            return df.format(number).toFloat()
+        }
+
+        fun getTodayBounds(format: String? = null): Pair<String, String> {
+            val dateFormat = SimpleDateFormat(format ?: "yyyy-MM-dd", Locale.getDefault())
             val calendar = Calendar.getInstance()
             // Set the start date as today
             val startDate = dateFormat.format(calendar.time)
@@ -22,8 +30,8 @@ class Utils {
             return Pair(startDate, startDate)
         }
 
-        fun getLast7DaysBounds(): Pair<String, String> {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        fun getLast7DaysBounds(format: String? = null): Pair<String, String> {
+            val dateFormat = SimpleDateFormat(format ?: "yyyy-MM-dd", Locale.getDefault())
             val calendar = Calendar.getInstance()
             // Set the end date as today
             val endDate = dateFormat.format(calendar.time)
@@ -34,8 +42,8 @@ class Utils {
             return Pair(startDate, endDate)
         }
 
-        fun getCurrentMonthBounds(): Pair<String, String> {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        fun getCurrentMonthBounds(format: String? = null): Pair<String, String> {
+            val dateFormat = SimpleDateFormat(format ?: "yyyy-MM-dd", Locale.US)
             val calendar = Calendar.getInstance()
 
             // Set the calendar to the first day of the current month
@@ -49,8 +57,8 @@ class Utils {
             return Pair(startDate, endDate)
         }
 
-        fun getLast30DaysBounds(): Pair<String, String> {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        fun getLast30DaysBounds(format: String? = null): Pair<String, String> {
+            val dateFormat = SimpleDateFormat(format ?: "yyyy-MM-dd", Locale.US)
             val calendar = Calendar.getInstance()
 
             // Set the calendar to today's date
@@ -72,7 +80,7 @@ class Utils {
             calendar.time = Date()
 
             // Subtract the corresponding number of days
-            calendar.add(Calendar.DAY_OF_YEAR, -number)
+            calendar.add(Calendar.DAY_OF_YEAR, - number)
 
             // Format the date
             return dateFormat.format(calendar.time)

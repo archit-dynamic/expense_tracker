@@ -4,16 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.expense_tracker.R
 import com.example.expense_tracker.colors.AppColors
-import com.example.expense_tracker.composables.custom_composables.CustomAvatar
+import com.example.expense_tracker.composables.custom_composables.CustomAvatarForInitials
 import com.example.expense_tracker.composables.custom_composables.CustomText
-import com.example.expense_tracker.composables.custom_composables.HorizontalSpace
-import com.example.expense_tracker.strings.AppImages
 
 @Composable
 fun DashBoardGreeting() {
@@ -22,11 +18,15 @@ fun DashBoardGreeting() {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CustomAvatar(
+        /*CustomAvatar(
             url = "",
             image = AppImages.icLauncherBackground,
             radius = 24f,
             borderColor = Color.Transparent
+        )*/
+        CustomAvatarForInitials(
+            initials = "AP",
+            radius = 24f,
         )
         Column(
             horizontalAlignment = Alignment.Start,

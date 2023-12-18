@@ -87,10 +87,20 @@ fun ExpenseEntryScreen(navController: NavHostController,modifier: Modifier = Mod
         CustomBorderedTextFieldWithLabel(
             modifier = Modifier,
             onValueChange = {
+                viewModel.title = it
+            },
+            value = viewModel.title,
+            label = "Title",
+            hintText = "Title",
+        )
+        VerticalSpace(height = 16.dp)
+        CustomBorderedTextFieldWithLabel(
+            modifier = Modifier,
+            onValueChange = {
                 viewModel.description = it
             },
             value = viewModel.description,
-            label = "Description",
+            label = "Description (Optional)",
             hintText = "Description",
         )
         VerticalSpace(height = 16.dp)
