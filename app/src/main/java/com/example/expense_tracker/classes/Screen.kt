@@ -10,12 +10,12 @@ sealed class Screen(
 
     object Home : Screen(id = "home", title = "Home", R.drawable.ic_bottom_nav_home)
     object Search : Screen(id = "search", title = "Add Expense", R.drawable.ic_bottom_nav_add_expense)
-    object Profile : Screen(id = "profile", title = "Reports", R.drawable.ic_bottom_nav_report)
+    object Reports : Screen(id = "profile", title = "Reports", R.drawable.ic_bottom_nav_report)
     object Settings : Screen(id = "settings", title = "Settings", R.drawable.ic_bottom_nav_settings)
 
     object Items {
         val list = listOf(
-            Home, Search, Profile, Settings,
+            Home, Search, Reports, Settings,
         )
     }
 

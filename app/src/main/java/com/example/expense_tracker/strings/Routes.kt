@@ -10,6 +10,7 @@ class Routes {
         const val dashboard: String = "dashboard"
         const val expenseEntry: String = "expenseEntry"
         const val settings: String = "settings"
+        const val reports: String = "reports"
 
     }
 
